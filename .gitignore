@@ -1,0 +1,21 @@
+node_modules/
+data/
+.env
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Generated builds
+dist/
+build/
+out/
+release/
+*.zip
+
+# Runtime state
+data/state.json
+
+# Local Spotify auth / secrets
+.env.local
+spotify-token.json
