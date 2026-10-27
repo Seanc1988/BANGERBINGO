@@ -1,51 +1,96 @@
-# BANGER BINGO
+# BANGER BINGO Phone Controller v1.17.1
 
-BANGER BINGO is a Windows-first live game-show platform for event hosts and DJs.
+This folder is the GitHub Pages phone controller for the matching **Banger Bingo v1.17.1 GitHub Phone Controller Host** build.
 
-Current game modes:
+It uses the same general approach as the working Ultimate Game Show Controller package: a static GitHub Pages site plus PeerJS/WebRTC, so guest phones can connect over cellular data or a different Wi-Fi network without exposing the BANGER BINGO laptop as a public web server.
+
+## Upload to GitHub
+
+Repository:
+
+`https://github.com/Seanc1988/BANGERBINGO`
+
+Upload **all files in this folder to the ROOT of the repository**. Do not upload an enclosing folder if you want the default controller URLs below to work.
+
+Required root files:
+
+- `index.html` — Music Bingo / Classic Bingo / Keno phone controller
+- `trivia.html` — Trivia Intermission phone controller
+- `phone-controller.js`
+- `trivia-controller.js`
+- `phone.css`
+- `trivia.css`
+- `peerjs.min.js`
+- `qrcode.min.js`
+- `rtc-config.js`
+- `banger-logo.png`
+- `README.md`
+
+## Enable GitHub Pages
+
+In GitHub:
+
+1. Open **Settings** for the BANGERBINGO repository.
+2. Open **Pages**.
+3. Under Build and deployment, choose **Deploy from a branch**.
+4. Select the branch containing these files, normally `main`.
+5. Select `/ (root)`.
+6. Save.
+
+The public controller should become available at approximately:
+
+`https://seanc1988.github.io/BANGERBINGO/`
+
+Trivia:
+
+`https://seanc1988.github.io/BANGERBINGO/trivia.html`
+
+## How the game code works
+
+The matching BANGER BINGO host build creates the existing six-digit Phone Cards room code. The GitHub controller connects to a PeerJS/WebRTC host room named internally from that code.
+
+Guests can either:
+
+- scan the QR code shown in the BANGER BINGO host, or
+- open the GitHub Pages controller and type the six-digit game code.
+
+The phone does **not** need to be on the same Wi-Fi as the host laptop.
+
+## Supported phone games
+
+`index.html` supports the existing v1.17 phone-card engine:
+
 - Music Bingo
 - Classic Bingo
 - Keno
 
-Current integrations:
-- VirtualDJ
-- Spotify Desktop control
-- Optional Spotify account connection for playlist selection and playback controls
-- Dual-screen Host + Audience display
-- Bingo card generator
-- Welcome / Intermission slideshow
-- Progressive jackpot features
-- Sound FX and themed audience displays
+`trivia.html` supports:
 
-## Current beta
+- Trivia Intermission
+- Standalone Trivia mode
 
-The current beta line is based on the v1.11 Music Bingo 3D build and is being actively field-tested at live events.
+The public controller does not duplicate the game engine. It sends only allowed player requests to the live host over WebRTC. The host remains authoritative for cards, calls, Keno validation, claims, Trivia scoring, timers and answers.
 
-### Known live-event priorities
-- Reduce Spotify now-playing detection latency.
-- Add a timed ~30-second Music Bingo playback workflow for Spotify.
-- Add a smooth transition / fade strategy when advancing Spotify tracks.
-- Continue final UI cleanup before packaging as a commercial Windows application.
-- Package as an installer with desktop shortcut, auto-update, and subscription licensing after beta.
+## Important
 
-## Architecture
+This package requires the matching **v1.17.1 host build**. Uploading the GitHub files alone does not make an older BANGER BINGO host listen for PeerJS phone connections.
 
-- Node.js
-- Express
-- Socket.IO
-- HTML / CSS / JavaScript
-- Windows PowerShell helper for Spotify Desktop media-session control
-- VirtualDJ bridge + history monitoring
+Keep `rtc-config.js` with the other controller files. It contains the same WebRTC relay configuration used by the matching host build.
 
-## Distribution direction
+## Testing mobile-data access
 
-The final product is intended to be packaged as a normal Windows desktop application with:
-- one-click installer
-- desktop / Start Menu shortcut
-- automatic updates
-- subscription entitlement
-- signed offline license lease with periodic internet verification
+1. Start the matching BANGER BINGO v1.17.1 host build.
+2. Open **Phone Cards**.
+3. Look for **GitHub Internet Phone Controller**.
+4. Confirm it says **Internet phone controller ready**.
+5. On a phone, turn Wi-Fi OFF.
+6. Scan the Bingo QR or Trivia QR.
+7. Join using cellular data.
+8. Confirm the host shows the internet phone connection count increasing.
 
-## Repository status
+If the phone says it cannot reach the host, confirm:
 
-This repository is now the source-control home for BANGER BINGO as the project transitions from ZIP-based beta releases to normal version-controlled development.
+- the host laptop itself has internet access,
+- GitHub Pages has finished publishing,
+- only one BANGER BINGO host is trying to own the same six-digit room,
+- browser/firewall software is not blocking WebRTC.
